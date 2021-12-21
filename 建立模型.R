@@ -1,11 +1,9 @@
 #透過h2o框架建立機器學習模型
-#h2o:一個強大的基於 java 的接口，提供並行分佈式算法和高效的生產化
 library(h2o)
-h2o.init(nthreads = -1, #-1表示使用你機器上所有的核
-         max_mem_size = "4G")  #max_mem_size參數列示允許h2o使用的最大記憶體
+h2o.init(nthreads = -1, max_mem_size = "4G")  
 
 ############################################
-#h2o-randomForest()
+#h2o-隨機森林(randomForest)
 set.seed(123)
 rf1 <- sample(2, nrow(test_3), replace = TRUE, prob = c(0.8, 0.2))
 g<-subset(test_3,select = -V2)
@@ -15,7 +13,6 @@ rf_f2 <- h2o.randomForest(  x = colnames(g),
                             training_frame = as.h2o(test_3[rf1 == 1,]),
                             validation_frame = as.h2o(test_3[rf1 == 2,]),
                             model_id = "rf_f2",
-                            #validation_frame = valid,  #only used if stopping_rounds > 0
                             ntrees = 200,#設置樹的數量為200
                             seed = 123,
                             nfolds = 5) #交叉驗證的次數
@@ -28,8 +25,9 @@ as.data.frame(h2o.varimp(rf_f2))
 
 #資料預測
 pd2<-h2o.predict(rf_f2, newdata = as.h2o(test_3))
+df_pd2<-as.data.frame(pd2)
 
-#建立h2o.rf模型估計表
+#建立h2o.dl模型估計表
 c1<-c("MSE",  "8670076*", "20984387")
 c2<-c("RMSE",  "2944.499*", "4580.872")
 c3<-c("MAE",  "1865.096*", "2266.53")
@@ -44,8 +42,6 @@ ggplot(df_pd2,aes(x = predict))+
   geom_histogram(bins = 30, aes(y = ..density..), alpha = 0.5)+ 
   geom_density()+ 
   labs(x="房價", y="數量")
-
-df_pd2<-as.data.frame(pd2)
 
 ############################################
 #h2o-Gradient Boosting Machine(gbdt/gbm)
@@ -113,7 +109,7 @@ h2o.final <- h2o.gbm(
   stopping_tolerance = 0,
   seed = 123)
 
-#建立h2o.gbm模型估計表
+#建立h2o.dl模型估計表
 b1<-c("MSE",  "90425.8*", "596247.2")
 b2<-c("RMSE",  "300.7088*", "772.1705")
 b3<-c("MAE",  "200.4143*", "312.8046")
@@ -135,23 +131,15 @@ h2o.rmse(h2o.final, xval = TRUE)
 #變量重要性
 h2o.varimp_plot(h2o.final, num_of_features = 10)
 as.data.frame(h2o.varimp(h2o.final))
-#h2o 不提供內置的 ICE 圖，但它提供了一個 PDP 圖，
-#該圖不僅繪製了平均邊際影響（如在正常 PDP 中），
-#而且還繪製了一個標準誤差以顯示可變性。
-h2o.partialPlot(h2o.final, data = as.h2o(test_3[rf1 == 1,]),cols = "BedroomAbvGr")
 
 # 使測試資料計算模型效能
 h2o.performance(model = h2o.final, newdata = as.h2o(test_3[rf1 == 2,]))
 
-# 檢視下這個模型的歷史得分
-h2o.scoreHistory(h2o.final)
-
 #預測
 gbm_predict<-predict(h2o.final,as.h2o(test_3))
-
 df_gbm_predict<-as.data.frame(gbm_predict)
 
-#預測圖
+#房價預測圖
 ggplot(df_gbm_predict,aes(x = predict))+  
   geom_histogram(bins = 30, aes(y = ..density..), alpha = 0.5)+ 
   geom_density()+ 
@@ -159,8 +147,6 @@ ggplot(df_gbm_predict,aes(x = predict))+
 
 ############################################
 #h2o-深度學習(DL)
-#[學習網址](https://docs.h2o.ai/h2o-tutorials/latest-stable/tutorials/deeplearning/index.html)
-
 dl <- h2o.deeplearning(x = colnames(g), 
                        y = colnames(test_3[,75]), 
                        training_frame =as.h2o(test_3[rf1 == 1,]),
@@ -197,3 +183,4 @@ d4<-c("RMSLE","0.006221825","0.008575702","0.01263158" )
 d5<-c("Mean Residual Deviance","1311013","2505431","6419506" )
 d6<-rbind(d1,d2,d3,d4,d5)
 colnames(d6)<-c("names","訓練資料","測試資料","交叉驗證")
+
