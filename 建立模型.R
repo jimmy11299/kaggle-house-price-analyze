@@ -29,7 +29,7 @@ as.data.frame(h2o.varimp(rf_f2))
 #資料預測
 pd2<-h2o.predict(rf_f2, newdata = as.h2o(test_3))
 
-#建立h2o.dl模型估計表
+#建立h2o.rf模型估計表
 c1<-c("MSE",  "8670076*", "20984387")
 c2<-c("RMSE",  "2944.499*", "4580.872")
 c3<-c("MAE",  "1865.096*", "2266.53")
@@ -113,7 +113,7 @@ h2o.final <- h2o.gbm(
   stopping_tolerance = 0,
   seed = 123)
 
-#建立h2o.dl模型估計表
+#建立h2o.gbm模型估計表
 b1<-c("MSE",  "90425.8*", "596247.2")
 b2<-c("RMSE",  "300.7088*", "772.1705")
 b3<-c("MAE",  "200.4143*", "312.8046")
