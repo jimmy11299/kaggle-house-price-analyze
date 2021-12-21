@@ -12,26 +12,22 @@ library(DT)
 
 ui<-dashboardPage(
   dashboardHeader(title="kaggle房價分析"),
-  #第一頁 
-  dashboardSidebar( # 側邊欄位
-    sidebarMenu( # 選單
+  dashboardSidebar( 
+    sidebarMenu( 
       menuItem("原始資料", tabName = "id_1", 
-               icon = icon("dashboard")),# 選項1
-      #icon:選項前面的小圖案
-      #圖案許則參考:https://fontawesome.com/v5.15/icons?d=gallery&p=2&q=th
-      menuItem("模型選擇", icon = icon("bar-chart-o"), startExpanded = TRUE,#將模型選項縮排
+               icon = icon("dashboard")),
+      menuItem("模型選擇", icon = icon("bar-chart-o"), startExpanded = TRUE,
                menuSubItem("h2o-randomForest模型", tabName = "id_2", 
-                           icon = icon("thumbs-up")),# 選項2
+                           icon = icon("thumbs-up")),
                menuSubItem("h2o-(gbdt/gbm)模型", tabName = "id_3", 
-                           icon = icon("thumbs-down")),# 選項3
+                           icon = icon("thumbs-down")),
                menuSubItem("h2o-deeplearning模型", tabName = "id_4", 
-                           icon = icon("github-alt")))# 選項4
+                           icon = icon("github-alt")))
     )
   ),
   dashboardBody(
-    #第二頁
     tabItems( 
-      tabItem(tabName = "id_1", # 對應選項1
+      tabItem(tabName = "id_1", 
               fluidPage(
                 box(width = 7,
                     titlePanel (tags$b("房價資料表")),
@@ -60,7 +56,7 @@ ui<-dashboardPage(
                                tags$br(),
                                "資料集經過清洗(補足缺失值、移除極值)，",
                                tags$br(),
-                               "並將資料以四種方式進行建模，",
+                               "並將資料以三種方式建立模型，",
                                tags$br(),
                                "最後挑選出誤差最小的模型對資料進行預測與視覺化。"
                       ))
@@ -113,8 +109,6 @@ ui<-dashboardPage(
                 )
               )
       ),
-      #閃亮的 HTML 標籤詞彙表=>ex:h1()
-      #https://shiny.rstudio.com/articles/tag-glossary.html
       tabItem(tabName = "id_3",
               fluidPage(
                 box(width=7,
