@@ -33,7 +33,7 @@ test_1<-cbind(test_1,sample_submission1$SalePrice)
 test_2<-test_1[,-c(1,10,14,15,31)]
 
 ############################################
-#建立複回歸模型透過cook's distance移除極值
+#建立複回歸模型透過cook's distance移除outlier
 #############lm模型1(67,402,752)
 lm1<-lm(test_2$V2 ~ ., data = test_2)
 plot(lm1,4)
