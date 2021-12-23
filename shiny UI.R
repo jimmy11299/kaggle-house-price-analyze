@@ -12,6 +12,7 @@ library(DT)
 
 ui<-dashboardPage(
   dashboardHeader(title="kaggle房價分析"),
+  #第一頁 
   dashboardSidebar( 
     sidebarMenu( 
       menuItem("原始資料", tabName = "id_1", 
@@ -26,8 +27,9 @@ ui<-dashboardPage(
     )
   ),
   dashboardBody(
+    #第二頁
     tabItems( 
-      tabItem(tabName = "id_1", 
+      tabItem(tabName = "id_1", # 對應選項1
               fluidPage(
                 box(width = 7,
                     titlePanel (tags$b("房價資料表")),
@@ -35,7 +37,7 @@ ui<-dashboardPage(
                     solidHeader = TRUE,
                     collapsible = TRUE,
                     dataTableOutput("test"),
-                    downloadButton("download", "Download .tsv")),
+                    downloadButton("download", "Download .csv")),
                 box(width = 5,
                     height = 500,
                     titlePanel (tags$b("原始資料圖")), 
@@ -44,19 +46,18 @@ ui<-dashboardPage(
                     collapsible = TRUE,
                     plotOutput("data_histogram_density_plot")),
                 box(width = 5,
-                    height = 400,
                     titlePanel(tags$b("資料描述")),
                     status = "warning",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    h3(
+                    h4(
                       tags$div("此資料來自kaggle數據分析平台，",
                                tags$br(),
                                "作為數據分析練習使用。",
                                tags$br(),
                                "資料集經過清洗(補足缺失值、移除極值)，",
                                tags$br(),
-                               "並將資料以三種方式建立模型，",
+                               "並將資料以四種方式進行建模，",
                                tags$br(),
                                "最後挑選出誤差最小的模型對資料進行預測與視覺化。"
                       ))
@@ -96,7 +97,7 @@ ui<-dashboardPage(
                     status = "warning",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    h3(
+                    h4(
                       "此資料來自kaggle平台，",
                       tags$br(),
                       "作為數據分析練習使用。",
@@ -142,7 +143,7 @@ ui<-dashboardPage(
                     status = "warning",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    h3(
+                    h5(
                       "此資料來自kaggle平台，",
                       tags$br(),
                       "作為數據分析練習使用。",
@@ -187,7 +188,7 @@ ui<-dashboardPage(
                     status = "warning",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    h3(
+                    h4(
                       "此資料來自kaggle平台，",
                       tags$br(),
                       "作為數據分析練習使用。",
