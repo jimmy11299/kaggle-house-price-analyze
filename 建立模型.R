@@ -55,7 +55,8 @@ ggplot(df_pd2,aes(x = predict))+
 #stopping_tolerance = 0,
 #model_id = "gbm_f1",
 #seed = 123)
-# create hyperparameter grid
+
+## create hyperparameter grid
 #hyper_grid <- list(
 #max_depth = c(1, 3, 5),
 #min_rows = c(1, 5, 10),
@@ -64,7 +65,7 @@ ggplot(df_pd2,aes(x = predict))+
 #sample_rate = c(.5, .75, 1),
 #col_sample_rate = c(.8, .9, 1))
 
-# perform grid search(執行全網格搜索)<至少2小時> 
+## perform grid search(執行全網格搜索)<至少2小時> 
 #grid <- h2o.grid(
 #algorithm = "gbm",
 #grid_id = "gbm_grid1",
@@ -132,7 +133,7 @@ h2o.rmse(h2o.final, xval = TRUE)
 h2o.varimp_plot(h2o.final, num_of_features = 10)
 as.data.frame(h2o.varimp(h2o.final))
 
-# 使測試資料計算模型效能
+#使用測試資料計算模型效能
 h2o.performance(model = h2o.final, newdata = as.h2o(test_3[rf1 == 2,]))
 
 #預測
