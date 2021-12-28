@@ -9,21 +9,24 @@ library(data.table)
 library(h2o)
 library(randomForest)
 library(DT)
+library(plotly)
 
 ui<-dashboardPage(
   dashboardHeader(title="kaggle房價分析"),
   #第一頁 
-  dashboardSidebar( 
-    sidebarMenu( 
+  dashboardSidebar( # 側邊欄位
+    sidebarMenu( # 選單
       menuItem("原始資料", tabName = "id_1", 
-               icon = icon("dashboard")),
-      menuItem("模型選擇", icon = icon("bar-chart-o"), startExpanded = TRUE,
+               icon = icon("dashboard")),# 選項1
+      #icon:選項前面的小圖案
+      #圖案許則參考:https://fontawesome.com/v5.15/icons?d=gallery&p=2&q=th
+      menuItem("模型選擇", icon = icon("bar-chart-o"), startExpanded = TRUE,#將模型選項縮排
                menuSubItem("h2o-randomForest模型", tabName = "id_2", 
-                           icon = icon("thumbs-up")),
+                           icon = icon("thumbs-up")),# 選項2
                menuSubItem("h2o-(gbdt/gbm)模型", tabName = "id_3", 
-                           icon = icon("thumbs-down")),
+                           icon = icon("thumbs-down")),# 選項3
                menuSubItem("h2o-deeplearning模型", tabName = "id_4", 
-                           icon = icon("github-alt")))
+                           icon = icon("github-alt")))# 選項4
     )
   ),
   dashboardBody(
@@ -44,7 +47,7 @@ ui<-dashboardPage(
                     status = "warning",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    plotOutput("data_histogram_density_plot")),
+                    plotlyOutput("data_histogram_density_plot")),
                 box(width = 5,
                     titlePanel(tags$b("資料描述")),
                     status = "warning",
@@ -71,7 +74,7 @@ ui<-dashboardPage(
                     status = "primary",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    plotOutput("image4")),
+                    plotlyOutput("image4")),
                 box(width=4,
                     height = 500,
                     titlePanel(tags$b("h2o.RF模型變數重要度前十名")),
@@ -110,6 +113,8 @@ ui<-dashboardPage(
                 )
               )
       ),
+      #閃亮的 HTML 標籤詞彙表=>ex:h1()
+      #https://shiny.rstudio.com/articles/tag-glossary.html
       tabItem(tabName = "id_3",
               fluidPage(
                 box(width=7,
@@ -118,7 +123,7 @@ ui<-dashboardPage(
                     status = "primary",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    plotOutput("image5")),
+                    plotlyOutput("image5")),
                 box(width=4,
                     height = 500,
                     titlePanel(tags$b("h2o.GBM變數重要度前十名")),
@@ -163,7 +168,7 @@ ui<-dashboardPage(
                     status = "primary",
                     solidHeader = TRUE,
                     collapsible = TRUE,
-                    plotOutput("plot_dl1")),
+                    plotlyOutput("plot_dl1")),
                 box(width=4,
                     height = 500,
                     titlePanel(tags$b("h2o.dl變數重要度前十名")),
@@ -203,3 +208,4 @@ ui<-dashboardPage(
     )
   )
 )
+
